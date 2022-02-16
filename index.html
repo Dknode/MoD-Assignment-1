@@ -54,17 +54,17 @@
 
   <div class="container one-bottom" style="margin-top: 50px">
     <div class="twelve columns">
-      <h3>Assignment 1 - Work In Progress</h3>
-      <h5>This page is the Workspace for which Assignment 1 is being developed. It will gradually become more fleshed out... </h5>
+      <h3>Assignment 1 - Public Transport in Hartford</h3>
+      <h5>Hartford is the capitol of Connecticut and is geographically centered in the state. Therefore, it's pubic transportation systems are also central to statewide systems of similar type, whether that means that the Hartfield transit system is the physical hub of the network, or is the template. CTtransit is the Connecticut Department of Transportation (CTDOT)-owned bus service. Several companies under contract to CTDOT operate services in metropolitan areas throughout Connecticut, but the focus here is one the central system in the Hartford area. CTtransit Hartford is the hub of the other state-subsidized systems, and therefore it's reach is beyond that which is shown below. However, it's use is a reflection of the statewide system, therefore it is worth looking into.</h5>
     </div>
   </div>
 
   
   <div class="container one-bottom" >
     <div class="twelve columns">
-      <h3>Personal example attempt</h3>
+      <h3>Mapping of Hartford's Bus System</h3>
       <h5>
-        This should show station population information about Austin's bikesharing network.
+        Mapped below are the stops directly under the CTtransit Hartford group
       </h5>
     </div>
   </div>
@@ -73,36 +73,32 @@
   <div id="map_1" class="one-bottom"></div>
 
 
+<div class="container one-bottom" style="margin-top: 50px">
+    <div class="twelve columns">
+      <h3>CTtransit use</h3>
+      <h5>The span of CTtransit Hartford displays a very strong north-south bearing in it's direct design, which hints at division of authority. It seems that the state-mandated system is only initialized for the use of connection to localized express networks that do run east-west, as well as provide access to longer reaching transit methods such as CTrail, Connecticut's passender railway service, that itself runs north-south. Additionally, CTtransit's CTfastrak bus extension that connects the Hartford branch to the New Haven branch seems to make it so consolidation of routes along this axis is preferable. </h5>
+    </div>
+  </div>
+
 
   <div class="container one-bottom" >
-    <h3>Image testing</h3>
+    <h3>Image</h3>
   </div>
 
   <div class="container one-bottom" >
     <div class="row">
-      <img class="four columns scale-with-grid quarter-bottom-rel" src="C:\Users\David G Knode\Desktop\ARCH 6306-MoD\Assign 1\Personal Emblem-Signature.png">
-      <img class="four columns scale-with-grid quarter-bottom-rel" src="img/img_640/640x480.jpg">
-      <img class="four columns scale-with-grid quarter-bottom-rel" src="C:\Users\David G Knode\Desktop\ARCH 6306-MoD\Assign 1\Personal Emblem-Signature.png">
+      <img class="six columns scale-with-grid quarter-bottom-rel" src="C:\Users\David G Knode\Desktop\ARCH 6306-MoD\Assign 1\img\hartfield seal.jpg">
+      <img class="six columns scale-with-grid quarter-bottom-rel" src="C:\Users\David G Knode\Desktop\ARCH 6306-MoD\Assign 1\img\ct transit.png">
     </div>
-    <div class="row">
-      <img class="four columns scale-with-grid quarter-bottom-rel" src="img/img_640/640x480.jpg">
-      <img class="four columns scale-with-grid quarter-bottom-rel" src="C:\Users\David G Knode\Desktop\ARCH 6306-MoD\Assign 1\Personal Emblem-Signature.png">
-      <img class="four columns scale-with-grid quarter-bottom-rel" src="img/img_640/640x480.jpg">
-    </div>
-  </div>
 
-  <div class="container one-bottom" >
-    <h1>Heading samplers (this is Heading 1)</h1>
-    <h2>This is Heading 2</h2>
-    <h3>This is Heading 3</h3>
-    <h4>This is Heading 4</h4>
-    <h5>This is Heading 5</h5>
-    <p>This is paragraph text p</p>
+    <div class="row">
+      <img class="six columns scale-with-grid quarter-bottom-rel" src="C:\Users\David G Knode\Desktop\ARCH 6306-MoD\Assign 1\img\ct rail.png">
+      <img class="six columns scale-with-grid quarter-bottom-rel" src="C:\Users\David G Knode\Desktop\ARCH 6306-MoD\Assign 1\img\greater bus network.jpg">
+    </div>
   </div>
 
   <div class="container one-bottom" >
     <h2>Team & Contributions</h2>
-    <h5>*Be very clear about how each student in your team contributed to this project*</h5>
     <h3>David Knode</h3>
     <h5>David Knode contributed to all maps, texts, and imagry choice</h5>
    </div>
@@ -112,33 +108,26 @@
 
   L.mapbox.accessToken = 'pk.eyJ1IjoiZGltcCIsImEiOiJkRnlra3RjIn0.E9CTYzNUEx0yb3dcfV4SiA';
 
- 
-  d3.json("https://api.citybik.es/v2/networks/austin", function(data) {
-    console.log(data);
 
-    
+  d3.json("https://data.hartford.gov/resource/p6gm-3y79", function(data) {
+    console.log(data);
     var map_1 = L.mapbox.map('map_1')
-    .setView([30.2672, -97.7431], 13.1)
+    .setView([41.8, -72.72], 10.5)
     .addLayer(L.mapbox.styleLayer('mapbox://styles/dknode/ckzfufu88001w14mrf4vcvshy'));
     map_1
     .scrollWheelZoom.disable();
 
-    data.network.stations.forEach(function(station){
-      station.lat = +station.latitude;
-      station.lng = +station.longitude;
-      var inventory_level = station.free_bikes / (station.free_bikes+station.empty_slots);
+    data.forEach(function(station){
+     
       var path_options = {
-        radius :  0.56 * (station.free_bikes + station.empty_slots),
-        color : d3.rgb(111,255,89).brighter(),
-        fillColor : (function(){
-          return inventory_level > 0.5? d3.rgb(111,255,89) : d3.rgb(111,255,89).darker(2)
-        })(),
+        radius :  7.5,
+        color : d3.rgb(111,255,89),
         stroke: true,
         weight : 1,
-        opacity : 1,
-        fillOpacity : 0.8
+        opacity : .5,
+        fillOpacity : 0.3
       };
-      L.circleMarker([station.latitude, station.longitude], path_options).addTo(map_1);
+      L.circleMarker([station.geom.latitude, station.geom.longitude], path_options).addTo(map_1);
     });
   });
 
